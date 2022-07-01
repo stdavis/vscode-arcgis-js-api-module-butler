@@ -1,0 +1,49 @@
+{
+  "name": "vscode-arcgis-js-api-module-butler",
+  "displayName": "ArcGIS JS API Module Butler",
+  "version": "0.0.1",
+  "description": "Automatically add ArcGIS JS API module imports.",
+  "categories": [
+    "Other"
+  ],
+  "main": "./extension.js",
+  "scripts": {
+    "format": "prettier --write .",
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "test": "node ./test/runTest.js"
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "vscode-arcgis-js-api-module-butler.addImport",
+        "title": "Add ArcGIS JS API Module Import"
+      }
+    ]
+  },
+  "activationEvents": [
+    "onCommand:vscode-arcgis-js-api-module-butler.addImport"
+  ],
+  "prettier": {
+    "printWidth": 120,
+    "singleQuote": true
+  },
+  "devDependencies": {
+    "@types/glob": "^7.2.0",
+    "@types/mocha": "^9.1.1",
+    "@types/node": "16.x",
+    "@types/vscode": "^1.68.0",
+    "@vscode/test-electron": "^2.1.5",
+    "eslint": "^8.18.0",
+    "eslint-config-prettier": "^8.5.0",
+    "glob": "^8.0.3",
+    "mocha": "^10.0.0",
+    "prettier": "^2.7.1",
+    "prettier-plugin-organize-imports": "^3.0.0",
+    "prettier-plugin-packagejson": "^2.2.18",
+    "typescript": "^4.7.4"
+  },
+  "engines": {
+    "vscode": "^1.68.0"
+  }
+}
