@@ -10,6 +10,9 @@
 			"type": "extensionHost",
 			"request": "launch",
 			"args": [
+				"/Users/scottdavis/Documents/Projects/vista",
+				"/Users/scottdavis/Documents/Projects/vista/src/App.jsx",
+				"--disable-extensions",
 				"--extensionDevelopmentPath=${workspaceFolder}"
 			]
 		},

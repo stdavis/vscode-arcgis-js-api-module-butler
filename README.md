@@ -1,6 +1,6 @@
 # vscode-arcgis-js-api-module-butler README
 
-This is the README for your extension "vscode-arcgis-js-api-module-butler". After writing up a brief description, we recommend including the following sections.
+Quickly add ES import statements for any exported object in the `@arcgis/core` package.
 
 ## Features
 
