@@ -17,54 +17,78 @@ function activate(context) {
   console.log('Congratulations, your extension "vscode-arcgis-js-api-module-butler" is now active!');
 
   const commandId = 'vscode-arcgis-js-api-module-butler.addImport';
-  const statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
 
-  // crawl @arcgis/core and build a list of all of the modules and their exports
-  // apply overrides for specific modules that need to be imported with the import * as <> syntax
+  vscode.window.showInformationMessage('The extension "vscode-arcgis-js-api-module-butler" is now active!');
+
   let items = [];
-  console.log('finding files')
-  const crawlPromise = vscode.workspace.findFiles('**/@arcgis/core/**/*.js', null).then(async URIs => {
-    console.log('parsing files')
-    let current = 0;
-    for (let uri of URIs) {
-      current += 1;
-      statusBarItem.text = `Crawling @arcgis/core... ${current}/${URIs.length}`;
-      statusBarItem.show();
+  function crawl() {
+    return vscode.window.withProgress({
+      location: vscode.ProgressLocation.Notification,
+      title: 'ArcGIS JS API Module Butler',
+    }, async (progress, token) => {
+      // crawl @arcgis/core and build a list of all of the modules and their exports
+      return vscode.workspace.findFiles('**/@arcgis/core/**/*.js', null).then(async URIs => {
+        console.log('parsing files')
+        let numProcessed = 0;
+        let lastIncrement = 0;
+        const reportIncrement = 1;
+        for (let uri of URIs) {
+          numProcessed++;
+          const increment = (numProcessed / URIs.length) * 100;
+          if (increment >= lastIncrement + reportIncrement) {
+            // prevent blocking of the UI (ref: https://github.com/microsoft/vscode/issues/139855)
+            await new Promise(resolve => setTimeout(resolve, 0));
+            console.log(increment)
+            progress.report({
+              increment: reportIncrement,
+              message: `Crawling @arcgis/core...${numProcessed}/${URIs.length}`,
+            });
+            lastIncrement += reportIncrement;
+          }
 
-      const fileContents = readFileSync(uri.fsPath, 'utf8');
-      const ast = espree.parse(fileContents, { sourceType: 'module', ecmaVersion: 2020 });
+          const fileContents = readFileSync(uri.fsPath, 'utf8');
+          const ast = espree.parse(fileContents, { sourceType: 'module', ecmaVersion: 2020 });
 
-      for (let node of ast.body) {
-        if (node.type === 'ExportNamedDeclaration') {
-          for (let specifier of node.specifiers) {
-            let exportName = specifier.exported.name;
-            const importPath = uri.path.split('/node_modules/')[1].replace('.js', '');
-            if (exportName === 'default') {
-              exportName = basename(uri.path).replace('.js', '');
-              items.push({
-                label: exportName,
-                detail: importPath,
-                importString: `import ${exportName} from '${importPath}';`
-              });
-            } else {
-              items.push({
-                label: exportName,
-                detail: importPath,
-                importString: `import { ${exportName} } from '${importPath}';`
-              })
+          for (let node of ast.body) {
+            if (token.isCancellationRequested) {
+              break;
+            }
+
+            if (node.type === 'ExportNamedDeclaration') {
+              for (let specifier of node.specifiers) {
+                let exportName = specifier.exported.name;
+                const importPath = uri.path.split('/node_modules/')[1].replace('.js', '');
+                if (exportName === 'default') {
+                  exportName = basename(uri.path).replace('.js', '');
+                  items.push({
+                    label: exportName,
+                    detail: importPath,
+                    importString: `import ${exportName} from '${importPath}';`
+                  });
+                } else {
+                  items.push({
+                    label: exportName,
+                    detail: importPath,
+                    importString: `import { ${exportName} } from '${importPath}';`
+                  })
+                }
+              }
+            } else if (node.type.startsWith('Export')) {
+              console.log(node.type);
             }
           }
-        } else if (node.type.startsWith('Export')) {
-          console.log(node.type);
         }
-      }
+
+        console.log('parsing complete');
+      });
+    });
+  }
+
+  let disposable = vscode.commands.registerCommand(commandId, async function () {
+    if (items.length === 0) {
+      await crawl();
     }
 
-    statusBarItem.hide();
-    console.log('parsing complete');
-  });
-
-  let disposable = vscode.commands.registerCommand(commandId, function () {
     const quickPick = vscode.window.createQuickPick({canPickMany: false});
     quickPick.items = items;
     quickPick.matchOnDetail = true;
@@ -88,9 +112,6 @@ function activate(context) {
   });
 
   context.subscriptions.push(disposable);
-  context.subscriptions.push(statusBarItem);
-
-  return crawlPromise;
 }
 
 // this method is called when your extension is deactivated
