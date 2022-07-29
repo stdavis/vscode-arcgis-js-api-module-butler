@@ -3,7 +3,7 @@
 const vscode = require('vscode');
 const espree = require('espree');
 const { basename } = require('path');
-const { readFileSync, writeFileSync, mkdirSync, rmdirSync, rmSync} = require('fs');
+const { readFileSync, writeFileSync, mkdirSync, rmSync} = require('fs');
 
 function getArcGISVersion() {
   const uri = vscode.Uri.joinPath(vscode.workspace.workspaceFolders[0].uri, '/node_modules/@arcgis/core/package.json');
