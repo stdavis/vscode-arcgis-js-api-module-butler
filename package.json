@@ -20,6 +20,10 @@
       {
         "command": "vscode-arcgis-js-api-module-butler.addImport",
         "title": "Add ArcGIS API for JS Module Import"
+      },
+      {
+        "command": "vscode-arcgis-js-api-module-butler.clearCache",
+        "title": "Clear cached module export json files"
       }
     ],
     "menus": {
@@ -27,12 +31,16 @@
         {
           "command": "vscode-arcgis-js-api-module-butler.addImport",
           "when": "editorLangId == 'javascript' || editorLangId == 'typescript' || editorLangId == 'javascriptreact' || editorLangId == 'typescriptreact'"
+        },
+        {
+          "command": "vscode-arcgis-js-api-module-butler.clearCache"
         }
       ]
     }
   },
   "activationEvents": [
-    "onCommand:vscode-arcgis-js-api-module-butler.addImport"
+    "onCommand:vscode-arcgis-js-api-module-butler.addImport",
+    "onCommand:vscode-arcgis-js-api-module-butler.clearCache"
   ],
   "prettier": {
     "printWidth": 120,
