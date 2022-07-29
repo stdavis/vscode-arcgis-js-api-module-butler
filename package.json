@@ -1,7 +1,7 @@
 {
   "name": "vscode-arcgis-js-api-module-butler",
   "displayName": "ArcGIS JS API Module Butler",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Automatically add ArcGIS JS API module imports.",
   "categories": [
     "Other"
@@ -19,11 +19,11 @@
     "commands": [
       {
         "command": "vscode-arcgis-js-api-module-butler.addImport",
-        "title": "Add ArcGIS API for JS Module Import"
+        "title": "ArcGIS Butler: Add Module Import"
       },
       {
         "command": "vscode-arcgis-js-api-module-butler.clearCache",
-        "title": "Clear cached module export json files"
+        "title": "ArcGIS Butler: Clear Cached"
       }
     ],
     "menus": {
