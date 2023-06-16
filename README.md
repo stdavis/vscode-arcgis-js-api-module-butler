@@ -22,3 +22,9 @@ This extension adds a command to the command palette that will add an import sta
 ### 1.0.0
 
 Initial release
+
+### 1.0.1
+
+Add better introduction to README
+
+Add icon
