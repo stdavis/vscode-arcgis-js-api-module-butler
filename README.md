@@ -17,6 +17,13 @@ This extension adds a command to the command palette that will add an import sta
 - ArcGIS Butler: Add Module Import
 - ArcGIS Butler: Clear Cached
 
+## Publishing a new version
+
+1. Manually bump version number in package.json
+1. Update changelog below
+1. Create release commit and associated tag
+1. `npx vsce publish`
+
 ## Release Notes
 
 ### 1.0.0
