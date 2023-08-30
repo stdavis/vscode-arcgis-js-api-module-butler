@@ -59,7 +59,6 @@ function crawl() {
         if (increment >= lastIncrement + reportIncrement) {
           // prevent blocking of the UI (ref: https://github.com/microsoft/vscode/issues/139855)
           await new Promise(resolve => setTimeout(resolve, 0));
-          console.log(increment)
           progress.report({
             increment: reportIncrement,
             message: `Crawling @arcgis/core...${numProcessed}/${URIs.length}`,
@@ -144,7 +143,6 @@ function activate(context) {
     quickPick.items = items;
     quickPick.matchOnDetail = true;
     quickPick.onDidChangeSelection(selection => {
-      console.log(selection[0].importString);
       quickPick.hide();
       vscode.window.activeTextEditor.edit(editBuilder => {
         // find first blank line
