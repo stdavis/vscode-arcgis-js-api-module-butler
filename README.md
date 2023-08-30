@@ -32,12 +32,16 @@ Open this project in VSCode and press `F5` to start debugging.
 
 ## Release Notes
 
-### 1.0.0
+### 1.0.2
 
-Initial release
+Fix crash caused by ArcGIS modules with syntax errors.
 
 ### 1.0.1
 
 Add better introduction to README
 
 Add icon
+
+### 1.0.0
+
+Initial release
