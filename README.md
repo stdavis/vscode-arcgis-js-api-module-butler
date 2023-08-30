@@ -17,7 +17,13 @@ This extension adds a command to the command palette that will add an import sta
 - ArcGIS Butler: Add Module Import
 - ArcGIS Butler: Clear Cached
 
-## Publishing a new version
+## Development
+
+### Debugging
+
+Open this project in VSCode and press `F5` to start debugging.
+
+### Publishing a new version
 
 1. Manually bump version number in package.json
 1. Update changelog below
