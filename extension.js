@@ -69,7 +69,14 @@ function crawl() {
 
         // the native nodejs fs module was significantly faster than the vscode fs module
         const fileContents = readFileSync(uri.fsPath, 'utf8');
-        const ast = espree.parse(fileContents, { sourceType: 'module', ecmaVersion: 2020 });
+
+        let ast;
+        try {
+          ast = espree.parse(fileContents, { sourceType: 'module', ecmaVersion: 'latest' });
+        } catch (error) {
+          console.warn(`Error parsing ${uri.fsPath}: ${error.message}`);
+          continue;
+        }
 
         for (let node of ast.body) {
           if (token.isCancellationRequested) {
