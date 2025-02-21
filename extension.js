@@ -5,9 +5,13 @@ const espree = require('espree');
 const { basename } = require('path');
 const { readFileSync, writeFileSync, mkdirSync, rmSync} = require('fs');
 
-function getArcGISVersion() {
-  const uri = vscode.Uri.joinPath(vscode.workspace.workspaceFolders[0].uri, '/node_modules/@arcgis/core/package.json');
-  const contents = readFileSync(uri.fsPath, 'utf8');
+async function getArcGISVersion() {
+  const findResults = await vscode.workspace.findFiles('**/node_modules/@arcgis/core/package.json', '**/.pnpm/**');
+  if (!findResults || findResults.length === 0) {
+    vscode.window.showErrorMessage('Could not find @arcgis/core package.json');
+    return;
+  }
+  const contents = readFileSync(findResults[0].fsPath, 'utf8');
   const packageJson = JSON.parse(contents);
 
   return packageJson.version;
@@ -129,7 +133,7 @@ function activate(context) {
 
   let addImport = vscode.commands.registerCommand('vscode-arcgis-js-api-module-butler.addImport', async function () {
     // get esri api version number
-    const version = getArcGISVersion();
+    const version = await getArcGISVersion();
 
     // check for cached list of modules
     let items = getCachedItems(version);
