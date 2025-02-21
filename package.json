@@ -1,7 +1,7 @@
 {
   "name": "vscode-arcgis-js-api-module-butler",
   "displayName": "ArcGIS JS API Module Butler",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Automatically add ArcGIS JS API module imports.",
   "repository": "https://github.com/stdavis/vscode-arcgis-js-api-module-butler",
   "categories": [

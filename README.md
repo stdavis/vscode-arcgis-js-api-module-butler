@@ -32,6 +32,10 @@ Open this project in VSCode and press `F5` to start debugging.
 
 ## Release Notes
 
+### 1.1.0
+
+Add support for nested node_modules directories
+
 ### 1.0.2
 
 Fix crash caused by ArcGIS modules with syntax errors.
